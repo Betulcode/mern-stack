@@ -75,3 +75,23 @@ exports.authLogin = async (req, res) => {
     }
   );
 };
+
+exports.authForgot = async (req, res) => {
+  const {password } = req.body;
+
+  // Password hash
+  const salt = await bcrypt.genSalt(10);
+  const newPassword = await bcrypt.hash(password, salt);
+
+  const userData = await User.findOne({ email });
+  // Save User
+  const user = new User({
+    firstName:userData.firstName,
+    lastName:userData.lastName,
+    email:userData.email,
+    password: newPassword,
+  });
+  await user.save();
+
+  res.send("New Password Saved");
+}

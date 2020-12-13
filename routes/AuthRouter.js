@@ -42,4 +42,6 @@ router.post(
   AuthController.authLogin
 );
 
+router.post("/forgot", AuthController.authForgot);
+
 module.exports = router; 
